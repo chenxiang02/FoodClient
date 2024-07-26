@@ -61,4 +61,8 @@ void ClientSocket::ReiveData()
         emit returnSQLMenuFind(date);
         date.clear();
     }
+    else if(date.contains("Heart Pack"))
+    {
+        this->SendData("Heart Palindrome");
+    }
 }
