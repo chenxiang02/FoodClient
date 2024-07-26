@@ -128,3 +128,4 @@ void Storage::setClearCountFlag(bool value)
     clearCountFlag = value;
     emit clearCountFlagChanged();
 }
+

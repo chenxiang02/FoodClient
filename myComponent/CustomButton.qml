@@ -5,7 +5,9 @@ import QtQuick.Layouts 1.3
 Button{
     id:customButton
 
+    property alias backgoundColor: background.color
+
     background: Rectangle{
-        color:customButton.hovered ? "white" : "#F6F8F7"
+        id:background
     }
 }

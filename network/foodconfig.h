@@ -13,6 +13,7 @@ class FoodConfig : public QObject
     Q_PROPERTY(QStringList foodType READ getFoodType WRITE setFoodType NOTIFY foodTypeChanged)
     Q_PROPERTY(QStringList foodName READ getFoodName WRITE setFoodName NOTIFY foodNameChanged)
     Q_PROPERTY(QStringList foodPrice READ getFoodPrice WRITE setFoodPrice NOTIFY foodPriceChanged)
+    Q_PROPERTY(QStringList rangeBackground READ getRangeBackground WRITE setRangeBackground NOTIFY rangeBackgroundChanged)
 
     Q_PROPERTY(bool LazyLoad READ getLazyLoad WRITE setLazyLoad NOTIFY lazyLoadChanged)
 
@@ -38,6 +39,9 @@ public:
     QStringList getFoodPrice() const;
     void setFoodPrice(const QStringList &value);
 
+    QStringList getRangeBackground() const;
+    void setRangeBackground(const QStringList &value);
+
 public slots:
     void unpackMenu(QString date);
     void sendMenuList(QStringList date,QString value);
@@ -46,6 +50,7 @@ signals:
     void foodTypeChanged();
     void foodNameChanged();
     void foodPriceChanged();
+    void rangeBackgroundChanged();
 
     void lazyLoadChanged();
 
@@ -54,6 +59,7 @@ private:
     QStringList foodType;
     QStringList foodName;
     QStringList foodPrice;
+    QStringList rangeBackground;
 
     QSettings * defaultConfig;
     ClientSocket * socket;

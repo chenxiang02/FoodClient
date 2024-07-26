@@ -88,6 +88,11 @@ void FoodConfig::unpackMenu(QString date)
     QStringList foodName;
     QStringList foodType;
     QStringList foodPrice;
+    QStringList typeIndex;
+    QStringList rangeValue;
+    rangeValue<<"0";
+
+    int TypeIndex = 0;
 
     QString strFood;
     QString strBear;
@@ -105,7 +110,11 @@ void FoodConfig::unpackMenu(QString date)
             {
                 strBear = MenuIntToString(strFood);
                 if(!foodType.contains(strBear))
+                {
                     foodType<<strBear;
+                    typeIndex<<QString::number(TypeIndex);
+                }
+                TypeIndex++;
             }
             else if(index == 3)
             {
@@ -125,10 +134,17 @@ void FoodConfig::unpackMenu(QString date)
 
         strFood +=date[i];//拼接内容
     }
-//    foodType<<"汤类"<<"肉类"<<"素菜";
+    typeIndex<<QString::number(TypeIndex);
+
+    for(int i = 1;i<typeIndex.size();i++)
+        rangeValue<<QString::number(typeIndex.at(i).toInt() * 60 -10);
+
+    qDebug()<<rangeValue;
+
     setFoodName(foodName);
     setFoodType(foodType);
     setFoodPrice(foodPrice);
+    setRangeBackground(rangeValue);
 }
 
 void FoodConfig::sendMenuList(QStringList date,QString value)
@@ -161,6 +177,18 @@ void FoodConfig::sendMenuList(QStringList date,QString value)
     this->socket->SendData(SendPack);//发送包
 
 }
+
+QStringList FoodConfig::getRangeBackground() const
+{
+    return rangeBackground;
+}
+
+void FoodConfig::setRangeBackground(const QStringList &value)
+{
+    rangeBackground = value;
+    emit rangeBackgroundChanged();
+}
+
 
 QStringList FoodConfig::getFoodPrice() const
 {
