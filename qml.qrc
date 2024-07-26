@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>myComponent/CustomItem.qml</file>
+        <file>myComponent/CustomButton.qml</file>
+        <file>myComponent/CustomMenuBar.qml</file>
+        <file>myComponent/MenuItem.qml</file>
+    </qresource>
+</RCC>
