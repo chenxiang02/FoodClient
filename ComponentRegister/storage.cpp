@@ -3,6 +3,7 @@
 Storage::Storage(QObject *parent):QObject(parent)
 {
     this->totalValue = 0;
+    this->clearCountFlag = false;
     qDebug()<<Q_FUNC_INFO<<"Storage类构造";
 }
 
@@ -115,4 +116,15 @@ void Storage::subtractValue(QStringList arg)
 
     setTotalValue(total);
     setMenuList(menulist);
+}
+
+bool Storage::getClearCountFlag() const
+{
+    return clearCountFlag;
+}
+
+void Storage::setClearCountFlag(bool value)
+{
+    clearCountFlag = value;
+    emit clearCountFlagChanged();
 }

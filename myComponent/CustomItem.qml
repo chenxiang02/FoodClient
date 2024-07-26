@@ -1,9 +1,16 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import Client.Storage 1.0
 
 Item{
     id:customItem
+
+    Storage{
+        id:clearcount
+
+    }
+
     property alias customMonicker:customName //菜名文本
     property alias customValue: customPrice //价格文本
     property alias countText: count
@@ -15,7 +22,15 @@ Item{
     signal countText(int Count)
     signal foodNameText(string name)
 
-    property var clearCount: false
+    property var countFlag: clearcount.clearCountFlag
+
+    onCountFlagChanged: {
+        if(countFlag)
+        {
+            count.text = "0"
+            clearcount.clearCountFlag = false
+        }
+    }
 
     Rectangle{
         id:backColor

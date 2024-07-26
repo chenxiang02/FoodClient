@@ -34,8 +34,6 @@ Window {
     property var totalValue: message.totalValue //总价
     property var menuList:message.menuList//清单列表
 
-    property var clearcount: false
-
 
 //     头部导航栏
     Rectangle {
@@ -104,15 +102,7 @@ Window {
                     customMonicker.text: qsTr(foodlist[index])
                     customValue.text: qsTr(loadSuccess ? foodprice[index]:strPrice)
 
-                    clearCount:clearcount
-
-                   onClearCountChanged:{
-                        if(clearCount)
-                        {
-                            countText.text = "0" //清空上次菜品数量信息
-                            clearCount = false
-                        }
-                    }
+                    countFlag: message.clearCountFlag
 
                     addBtn.onClicked: {
                         countText.text = parseInt(countText.text) + 1
@@ -198,7 +188,7 @@ Window {
             message.clearMenuList()
             message.totalValue = 0
             menuBar.visible = false
-            clearcount =true
+            message.clearCountFlag = true
         }
     }
 
