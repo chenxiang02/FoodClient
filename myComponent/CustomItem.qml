@@ -18,10 +18,6 @@ Item{
     property alias addBtn: add //添加按钮
     property alias subtracttBtn: subtract //减少按钮
 
-    signal priceText(int value)
-    signal countText(int Count)
-    signal foodNameText(string name)
-
     property var countFlag: clearcount.clearCountFlag
 
     onCountFlagChanged: {
@@ -96,7 +92,6 @@ Item{
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: 20
-
 
       background: Rectangle{
           color: "#FEDA07"

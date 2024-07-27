@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 Button{
     id:customButton
 
-    property alias backgoundColor: background.color
+    property alias backgoundColor: background
 
     background: Rectangle{
         id:background

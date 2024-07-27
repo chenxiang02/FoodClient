@@ -3,7 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import Client.Storage 1.0
 
-
 Item{
     width:200
     height: 50

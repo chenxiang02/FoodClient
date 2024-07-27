@@ -142,12 +142,11 @@ void FoodConfig::unpackMenu(QString date)
     for(int i = 1;i<typeIndex.size();i++)
         rangeValue<<QString::number(typeIndex.at(i).toInt() * 60 -10);
 
-    qDebug()<<rangeValue;
-
     setFoodName(foodName);
     setFoodType(foodType);
     setFoodPrice(foodPrice);
     setRangeBackground(rangeValue);
+    setItemIndex(typeIndex);
 }
 
 void FoodConfig::sendMenuList(QStringList date,QString value)
@@ -177,10 +176,19 @@ void FoodConfig::sendMenuList(QStringList date,QString value)
 
     SendPack.append("List End");//添加包尾
 
-    qDebug()<<SendPack;
-
     this->socket->SendData(SendPack);//发送包
 
+}
+
+QStringList FoodConfig::getItemIndex() const
+{
+    return itemIndex;
+}
+
+void FoodConfig::setItemIndex(const QStringList &value)
+{
+    itemIndex = value;
+    emit itemIndexChanged();
 }
 
 QStringList FoodConfig::getRangeBackground() const

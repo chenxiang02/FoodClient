@@ -26,6 +26,7 @@ Window {
     property var foodlist: food.foodName//名字列表
     property var foodprice: food.foodPrice//价格列表
     property var typeindexlist: food.rangeBackground //索引定位
+    property var itemIndex: food.itemIndex
 
     property var strPrice: '15'
 
@@ -66,89 +67,62 @@ Window {
                 model: typelist
                 visible: loadSuccess//懒加载
 
-
                 delegate: CustomComponent.CustomButton{
+                    id:btn
                     width: typeMenuList.width
                     height: 50
                     text: qsTr(typelist[index])
                     Layout.alignment: Qt.AlignHCenter
-                    backgoundColor: (typeindexlist[index] <= nameMenuList.contentY && nameMenuList.contentY < typeindexlist[index + 1]) ? "white" : "#F6F8F7"
+
+                    backgoundColor.color: (listview.contentY>=typeindexlist[index] && listview.contentY < typeindexlist[index+1])
+                                           ? "white" : "#F6F8F7"
+
                     onClicked: {
-                        nameMenuList.contentY = parseInt(typeindexlist[index])
-                        console.log(typeindexlist[index] ,typeindexlist[index + 1])
+                        listview.positionViewAtIndex(itemIndex[index],listview.Center)
                     }
                 }
             }
         }
     }
 
-    Flickable{
-        id:nameMenuList
-        anchors.left: typeMenuList.right
-        anchors.top: header.bottom
+    Rectangle{
         width: parent.width - typeMenuList.width
         height: parent.height - header.height - bottomBar.height
-        visible: loadSuccess//懒contenY:200加载
-        clip: true//防止视图越位(视图加载bug)
-        contentWidth: nameMenuList.width
-        contentHeight: 50
+        anchors.top: header.bottom
+        anchors.right: parent.right
+        visible: loadSuccess
+        clip: true
+        ListView{
+            id:listview
+            anchors.fill: parent
+            model: foodlist
+            spacing:10
 
-        MouseArea{
-            width: nameMenuList.width
-            height: foodlist.length * 60 - 100
-            onWheel: {
-                if(nameMenuList.contentY >=0)
-                {
-                    if(wheel.angleDelta.y > 0&&nameMenuList.contentY>0)
-                         nameMenuList.contentY -= 30
-                    else if(wheel.angleDelta.y < 0)
-                         nameMenuList.contentY +=30
+            delegate:CustomComponent.CustomItem {
+                width: listview.width
+                height: 50
+                customMonicker.text: qsTr(foodlist[index])
+                customValue.text: qsTr(loadSuccess ? foodprice[index]:strPrice)
+
+                countFlag: message.clearCountFlag //是否清除count 资源消耗过大 可以考虑优化
+
+                addBtn.onClicked:{
+                    countText.text = parseInt(countText.text) + 1
+                    let mList = [customMonicker.text,countText.text,customValue.text]
+                    message.addTotalValue(mList)
                 }
+
+
+                subtracttBtn.onClicked:{
+                    if(countText.text>0)
+                    {
+                         countText.text = countText.text - 1
+                         let mList = [customMonicker.text,countText.text,customValue.text]
+                         message.subtractValue(mList)
+                    }
             }
         }
-
-        Column{
-            spacing: 10
-            Repeater{
-                model: foodlist
-                visible: loadSuccess//懒加载
-
-                delegate: CustomComponent.CustomItem{
-                    width: nameMenuList.width
-                    height: 50
-                    customMonicker.text: qsTr(foodlist[index])
-                    customValue.text: qsTr(loadSuccess ? foodprice[index]:strPrice)
-
-                    countFlag: message.clearCountFlag //是否清除count
-
-                    addBtn.onClicked: {
-                        countText.text = parseInt(countText.text) + 1
-                        let mList = [customMonicker.text,countText.text,customValue.text]
-                        message.addTotalValue(mList)
-                    }
-
-                    subtracttBtn.onClicked: {
-                        if(countText.text>0)
-                        {
-                             countText.text = countText.text - 1
-                             let mList = [customMonicker.text,countText.text,customValue.text]
-                             message.subtractValue(mList)
-                             console.log(menuList)
-                        }
-                    }
-                }
-            }
-            Item{
-                width: nameMenuList.width
-                height: 60
-                Label{
-                    text: qsTr("----已经到底了----")
-                    font.pixelSize: 20
-                    font.bold: true
-                    anchors.centerIn: parent
-                }
-            }
-        }
+       }
     }
 
 
@@ -218,5 +192,4 @@ Window {
             message.clearCountFlag = true
         }
     }
-
 }
