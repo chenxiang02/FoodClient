@@ -21,6 +21,9 @@ FoodConfig::FoodConfig()
             setLazyLoad(true);
         }
     });
+    connect(socket,&ClientSocket::Reconnection,this,[&]{
+        this->connectControl->start();
+    });
 
     this->socket->clientSocketInit();//连接
 
@@ -170,9 +173,11 @@ void FoodConfig::sendMenuList(QStringList date,QString value)
         index++;
     }
 
-    SendPack.append("+"+value+"+");
+    SendPack.append(value+"+");
 
     SendPack.append("List End");//添加包尾
+
+    qDebug()<<SendPack;
 
     this->socket->SendData(SendPack);//发送包
 

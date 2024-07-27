@@ -21,10 +21,11 @@ public:
 
 public slots:
     void ReiveData();
-
+    void disconnectServe();
 signals:
     void connectSuccess();
     void returnSQLMenuFind(QString date);
+    void Reconnection();
 
 private:
     QTcpSocket * clientIndex;

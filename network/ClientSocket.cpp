@@ -21,6 +21,7 @@ void ClientSocket::clientSocketInit()
         emit connectSuccess();
     });
     connect(clientIndex,&QTcpSocket::readyRead,this,&ClientSocket::ReiveData);
+    connect(clientIndex,&QTcpSocket::disconnected,this,&ClientSocket::disconnectServe);
 }
 
 void ClientSocket::SendData(QString data)
@@ -65,4 +66,12 @@ void ClientSocket::ReiveData()
     {
         this->SendData("Heart Palindrome");
     }
+}
+
+void ClientSocket::disconnectServe()
+{
+    this->clientIndex->close();
+    this->IsConnect = false;
+    this->clientIndex->connectToHost("127.0.0.1",6666);
+    emit Reconnection();
 }
